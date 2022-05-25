@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
         // home: View_2(), // premiere vue
         //home: LoginScreen(), // premiere vue
         //home: AddExercice() // premiere vue
-        home: ListExercice() // premiere vue
-        //home: Login(),
+        //home: ListExercice() // premiere vue
+        home: Login(),
         );
   }
 }
