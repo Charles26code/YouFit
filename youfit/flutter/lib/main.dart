@@ -17,10 +17,10 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         //home: View_1(), // premiere vue
         // home: View_2(), // premiere vue
-        //home: LoginScreen(), // premiere vue
+        home: LoginScreen(), // premiere vue
         //home: AddExercice() // premiere vue
         //home: ListExercice() // premiere vue
-        home: Login(),
+        //home: Login(),
         );
   }
 }

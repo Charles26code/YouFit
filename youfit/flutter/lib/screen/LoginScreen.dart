@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_svg/svg.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -19,20 +20,29 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(alignment: Alignment.center, children: <Widget>[
-      Container(
-        decoration: BoxDecoration(
-          color: Colors.black,
-          image: DecorationImage(
-            fit: BoxFit.fill,
-            colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.2), BlendMode.dstATop),
-            image: const AssetImage('img/fitness.jpg'),
-            alignment: FractionalOffset.topCenter,
+    return Stack(
+      alignment: Alignment.center, children: <Widget>[
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage('img/bg-loginscreen.jpg'),
+              alignment: FractionalOffset.topCenter,
+            ),
           ),
         ),
-      ),
-    ]);
+        
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              fit: BoxFit.fill,
+              image: AssetImage('img/bg-circle.png'),
+              alignment: FractionalOffset.topCenter,
+            ),
+          ),
+        )
+      ]
+    );
   }
 }
 
@@ -41,51 +51,53 @@ class LogoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Padding(
-          padding: const EdgeInsets.only(top: 250),
-          child: Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center, 
+      children: [
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                child: Image.asset(
-                  "img/peach.png",
-                  height: 100,
-                  width: 100,
+                child: const Text('YOU',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Koulen',
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold
+                  )
                 ),
               ),
+              
               Container(
-                padding: const EdgeInsets.all(10),
-                child: const Text('Fit',
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'Abel-Regular',
-                        fontSize: 50)),
-              ),
-              Expanded(
-                flex: 0,
-                child: Container(
-                  padding: const EdgeInsets.only(top: 8),
-                  height: 80,
-                  width: 80,
-                  // padding: const EdgeInsets.only(top: 80),
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(1000, 238, 122, 43),
-                      borderRadius: BorderRadius.circular(20)),
-                  //padding: const EdgeInsets.all(10),
-                  child: const Text('hub',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontFamily: 'Abel-Regular',
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold)),
+                child: const Text('FIT',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: Color.fromARGB(1000, 0, 232, 51),
+                    fontFamily: 'Koulen',
+                    fontSize: 50,
+                    fontWeight: FontWeight.bold
+                  )
                 ),
-              )
+              ),
+              
+              Container(
+                // padding: const EdgeInsets.only(top: 30),
+                child: RotationTransition(
+                  turns: const AlwaysStoppedAnimation(135 / 360),
+                  child: SvgPicture.asset(
+                    "img/dumbbell.svg",
+                    color: const Color.fromARGB(1000, 0, 232, 51),
+                    width: 50,
+                  ),
+                ),
+              ),
+
             ],
-          )),
-    ]);
+          )
+        
+      ]
+    );
   }
 }
 
