@@ -22,9 +22,12 @@ class Background extends StatelessWidget {
     return Stack(
       alignment: Alignment.center, children: <Widget>[
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
+            color: Colors.black,
             image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.5), BlendMode.dstATop),
               image: AssetImage('img/bg-signup.jpg'),
               alignment: FractionalOffset.topCenter,
             ),
