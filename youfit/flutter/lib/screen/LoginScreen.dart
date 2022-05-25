@@ -23,10 +23,12 @@ class Background extends StatelessWidget {
     return Stack(
       alignment: Alignment.center, children: <Widget>[
         Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
+            color: Colors.black,
             image: DecorationImage(
-              fit: BoxFit.fill,
-              image: AssetImage('img/bg-loginscreen.jpg'),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.5), BlendMode.dstATop),
+              image: const AssetImage('img/bg-loginscreen.jpg'),
               alignment: FractionalOffset.topCenter,
             ),
           ),
@@ -35,7 +37,7 @@ class Background extends StatelessWidget {
         Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
               image: AssetImage('img/bg-circle.png'),
               alignment: FractionalOffset.topCenter,
             ),
