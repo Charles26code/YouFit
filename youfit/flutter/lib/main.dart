@@ -4,6 +4,7 @@ import 'package:youfit/screen/LoginScreen.dart';
 import 'package:youfit/screen/Login.dart';
 import 'package:youfit/screen/ListExercice.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
+import 'package:youfit/screen/ForgetPassword.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         //home: ListExercice() // premiere vue
         //home: Login(),
         //home: SignUpScreen(),
+        //home: ForgetPassword(),
         );
   }
 }
