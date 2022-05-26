@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:youfit/screen/AddExercice.dart';
 import 'package:youfit/screen/LoginScreen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         //home: Login(),
         //home: SignUpScreen(),
         //home: ForgetPassword(),
+        home: LoginScreen(),
         );
   }
 }

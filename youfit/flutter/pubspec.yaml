@@ -29,6 +29,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  animated_splash_screen: 
  
 
 

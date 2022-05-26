@@ -1,15 +1,67 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:youfit/screen/Login.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _page_visible = false;
+
+  @override
+  void initState(){
+    super.initState();
+    _navigatetohome();
+    _pageanimation();
+  }
+
+  _pageanimation()async{
+    await Future.delayed(const Duration(milliseconds: 300), () {});
+    setState(() {
+      _page_visible = !_page_visible;
+    });
+  }
+
+  _navigatetohome()async{
+    await Future.delayed(const Duration(milliseconds: 3500), () {});
+    Navigator.pushReplacement(context, _createRoute());
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => const Login(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: const [Background(), LogoSection()],
+    return Container(
+      color: Colors.black,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 2000), 
+        opacity: _page_visible ? 1.0 : 0.0, 
+        child: Scaffold(
+          body: Stack(
+            children: const [Background(), LogoSection()],
+          ),
+        ),
       ),
     );
   }
@@ -118,3 +170,5 @@ class LoaderSection extends StatelessWidget {
     );
   }
 }
+
+
