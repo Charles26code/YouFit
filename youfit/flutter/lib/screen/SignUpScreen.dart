@@ -177,16 +177,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
 
                       const SizedBox(height: 20,),
-
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
-                        },
+                      TextButton(
+                        onPressed: () => {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()))
+                        }, 
                         child: const Text(
                           " J'ai déjà un compte ->",
-                          style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'PT Sans', fontWeight: FontWeight.bold),
-                        ),
+                          style: TextStyle(
+                            color: Colors.white, 
+                            fontSize: 12, 
+                            fontFamily: 'PT Sans'
+                          ),
+                        )
                       )
                     ],
 
