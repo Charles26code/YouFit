@@ -1,10 +1,9 @@
 // ignore_for_file: unnecessary_const
 
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:youfit/reusable_widgets/widget_general.dart';
+
 
 class Login extends StatelessWidget {
   const Login({Key? key}) : super(key: key);
@@ -15,14 +14,6 @@ class Login extends StatelessWidget {
       body: Stack(
         children:  [
           const Background(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              LogoSection(),
-              LoginSection(),
-              QuestionSection(),
-            ],
-          ),
           Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -31,7 +22,15 @@ class Login extends StatelessWidget {
               alignment: FractionalOffset.topCenter,
             ),
           ),
-        )
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: const [
+              LogoSection(),
+              LoginSectionV2(),
+              QuestionSection(),
+            ],
+          ),
         ],
       ),
     );
@@ -106,6 +105,55 @@ class LogoSection extends StatelessWidget {
             ],
           )),
     ]);
+  }
+}
+
+class LoginSectionV2 extends StatelessWidget {
+  const LoginSectionV2({Key ? key}) : super(key : key);
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          champsTextes("Adresse Mail ou Pseudo", Icons.person_outline, false),
+          const SizedBox(height: 20,),
+          champsTextes("Mot de passe ", Icons.lock_outlined, true),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () => {}, 
+                child: const Text(
+                  'Mot de passe oublié ?',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'PT Sans',
+                      fontSize: 13),
+                ))
+            ],
+          ),
+          const SizedBox(height: 20,),
+          SizedBox(
+            width: 325,
+            child: FloatingActionButton.extended(
+              backgroundColor: const Color.fromARGB(1000, 0, 232, 51),
+              hoverColor: const Color.fromARGB(255, 0, 255, 55),
+              onPressed: () {},
+              label: const Text(
+                'CONNEXION',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'PT Sans',
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),  
+    );
   }
 }
 

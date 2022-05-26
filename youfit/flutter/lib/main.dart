@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         //home: AddExercice() // premiere vue
         //home: ListExercice() // premiere vue
         //home: Login(),
-        home: SignUpScreen(),
+        //home: SignUpScreen(),
         );
   }
 }
