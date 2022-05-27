@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youfit/screen/all_layout.dart';
+import 'package:youfit/screen/SignUpScreen.dart';
 
 
 //Classe destinée au fond d'écran
@@ -93,31 +94,84 @@ class _MyCardState extends State<MyCard> {
       
       //Menu gauche de l'application pouvant etre ouvert en glissant ou via l'icone
       drawer: Drawer(
+        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.black,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage('img/bg-programscreen.jpg'),
-                  alignment: FractionalOffset.topCenter,
+            
+            Container(
+              color: Colors.black,
+              child:DrawerHeader(
+                child: Stack(
+                    alignment: Alignment.center, 
+                    children: <Widget>[
+                      
+                      // Ajout de l'image de fond
+                      Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.black,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage('img/bg-programscreen.jpg'),
+                            alignment: FractionalOffset.topCenter,
+                          ),
+                        ),
+                      ),
+
+                      // Affiche le logo au dessus de l'image
+                      Container(
+                        decoration: const BoxDecoration(
+                          //color: Colors.black,
+                          image: DecorationImage(
+                            //fit: BoxFit.cover,
+                            //colorFilter: ColorFilter.mode(
+                              //Colors.black.withOpacity(0.5), BlendMode.dstATop),
+                            image: AssetImage('img/logoapp.png'),
+                            alignment: FractionalOffset.center,
+                          ),
+                        ),
+                      ),
+                  ] 
                 ),
               ),
-              child: Text('Menu',
+            ),
+            
+            // Ajout des différents menus dans une liste
+            ListTile(
+              title: const Text('Programmes',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Koulen',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                )
+              ),
+
+              onTap: () {
+                // Navigation vers la page à ajouter
+                // ...
+                // Fermeture du drawer
+                Navigator.pop(context);
+              },
+            ),
+            
+            const Divider(
+              thickness: 2,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(255, 108, 108, 108),
+            ),
+
+            ListTile(
+              title: const Text('Favoris',
                 style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Koulen',
-                  fontSize: 30,
+                  fontSize: 15,
                   fontWeight: FontWeight.bold
                 )
               ),
               
-            ),
-            
-            ListTile(
-              title: const Text('Programmes'),
               onTap: () {
                 // Navigation vers la page à ajouter
                 // ...
@@ -126,18 +180,23 @@ class _MyCardState extends State<MyCard> {
               },
             ),
             
-            ListTile(
-              title: const Text('Favoris'),
-              onTap: () {
-                // Navigation vers la page à ajouter
-                // ...
-                // Fermeture du drawer
-                Navigator.pop(context);
-              },
+            const Divider(
+              thickness: 2,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(255, 108, 108, 108),
             ),
-            
+
             ListTile(
-              title: const Text('Créer un programme'),
+              title: const Text('Créer un programme',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Koulen',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                )
+              ),
+              
               onTap: () {
                 // Navigation vers la page à ajouter
                 // ...

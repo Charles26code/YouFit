@@ -37,7 +37,7 @@ class CardLanguage extends StatelessWidget {
 
             border: Border.all(
               width: 2,
-              color: Color.fromARGB(255, 108, 108, 108),
+              color: const Color.fromARGB(255, 108, 108, 108),
             ),
             
             borderRadius: const BorderRadius.all(
@@ -111,8 +111,9 @@ class CardLanguage extends StatelessWidget {
                   ),
                 ),
                 
+                const SizedBox(width: 10,),
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children:[
@@ -122,6 +123,7 @@ class CardLanguage extends StatelessWidget {
                           FavoriteButton(
                             iconColor: Color.fromARGB(1000, 0, 232, 51),
                             isFavorite: false,
+                            iconSize: 40,
                             //iconDisabledColor: Colors.white,
                             valueChanged: (_isFavorite) {
                               print('Favoris : $_isFavorite');
