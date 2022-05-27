@@ -2,32 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
 
-class ForgetPassword extends StatelessWidget {
+class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ForgetPassword> createState() => _ForgetPasswordState();
+}
+
+class _ForgetPasswordState extends State<ForgetPassword> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String? mailusername;
+
+  void submitForm(){
+    formKey.currentState?.save();
+    print(mailusername);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children:  [
-          const Background(),
-          Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: AssetImage('img/bg-circle.png'),
-              alignment: FractionalOffset.topCenter,
+      body: Form(
+        key: formKey,
+        child: Stack(
+          children:  [
+            const Background(),
+            Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('img/bg-circle.png'),
+                alignment: FractionalOffset.topCenter,
+              ),
             ),
-          ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              LogoSection(),
-              MailSection(),
-            ],
-          ),
-        ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const LogoSection(),
+                MailSection(
+                  mailcallback: (value) => mailusername = value,
+                  submitcallback: () => submitForm(),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -105,7 +124,11 @@ class LogoSection extends StatelessWidget {
 }
 
 class MailSection extends StatelessWidget {
-  const MailSection({Key ? key}) : super(key : key);
+  final void Function(String?)? mailcallback;
+  final void Function()? submitcallback;
+
+
+  const MailSection({Key ? key, required this.mailcallback, required this.submitcallback}) : super(key : key);
 
   @override
   Widget build(BuildContext context){
@@ -114,7 +137,12 @@ class MailSection extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          champsTextes("Adresse Mail ou Nom d'utilisateur", Icons.person_outline, false),
+          champsTextes(
+            "Adresse Mail ou Nom d'utilisateur", 
+            Icons.person_outline, 
+            false, 
+            mailcallback
+          ),
           const SizedBox(height: 20,),
           Padding(
             padding: const EdgeInsets.only(bottom: 450), 
@@ -123,7 +151,7 @@ class MailSection extends StatelessWidget {
               child: FloatingActionButton.extended(
                 backgroundColor: const Color.fromARGB(1000, 0, 232, 51),
                 hoverColor: const Color.fromARGB(255, 0, 255, 55),
-                onPressed: () {},
+                onPressed: submitcallback,
                 label: const Text(
                   'CHANGER MON MOT DE PASSE',
                   style: TextStyle(
