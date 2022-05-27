@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:youfit/screen/AddExercice.dart';
 import 'package:youfit/screen/LoginScreen.dart';
 import 'package:youfit/screen/Login.dart';
-import 'package:youfit/screen/ListExercice.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
+import 'package:youfit/screen/all_layout.dart';
 
 void main() {
   runApp(MyApp());
@@ -26,7 +26,8 @@ class MyApp extends StatelessWidget {
         //home: Login(),
         //home: SignUpScreen(),
         //home: ForgetPassword(),
-        home: LoginScreen(),
+        //home: LoginScreen(),
+        home: MyCard(),
         );
   }
 }
