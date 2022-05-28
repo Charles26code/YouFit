@@ -25,7 +25,10 @@ class CardLanguage extends StatelessWidget {
       color: Colors.black,
       
       child : InkWell(
-        onTap: updatePressed,
+        onTap: () {
+          showDialogFunc(context, titre, niveau, description, background);
+        },
+
         
         child: Container( 
           decoration: BoxDecoration(
@@ -143,4 +146,71 @@ class CardLanguage extends StatelessWidget {
       ),
     );
   }
+}
+
+showDialogFunc(context, titre, niveau, description, background){
+  return showDialog(
+    context: context,
+    builder: (context){
+      return Center(
+        child: Material(
+          type: MaterialType.transparency,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color.fromARGB(255, 208, 208, 208),
+            ),
+            padding: EdgeInsets.all(2),
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 420,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.asset(
+                    'img/bg-programcard.jpg',
+                    width: 250,
+                    height: 250,
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  titre,
+                  style: const TextStyle( 
+                    color: Colors.black,
+                    fontFamily: 'Koulen',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  )
+                ),
+                const SizedBox(height: 10,),
+                Text(
+                  niveau,
+                  style: const TextStyle(
+                    color: Color.fromARGB(255, 110, 72, 72),
+                    fontFamily: 'Koulen',
+                    fontSize: 17,
+                    //fontWeight: FontWeight.bold
+                    //fontStyle: FontStyle.italic
+                  )
+                ),
+                const SizedBox(height: 20,),
+                Text(
+                  description,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Koulen',
+                    fontSize: 15,
+                    fontStyle: FontStyle.italic
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+  );
 }
