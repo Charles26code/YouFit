@@ -141,7 +141,13 @@ class MailSection extends StatelessWidget {
             "Adresse Mail ou Nom d'utilisateur", 
             Icons.person_outline, 
             false, 
-            mailcallback
+            mailcallback,
+            (value) {
+              if(value == null || value.isEmpty){
+                return "Renseigner un nom d'utilisateur ou un email.";
+              }
+              return null;
+            }
           ),
           const SizedBox(height: 20,),
           Padding(

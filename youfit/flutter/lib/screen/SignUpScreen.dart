@@ -95,16 +95,63 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       
                       children: <Widget>[
                         const SizedBox(height: 20,),
-                        champsTextes("Nom d'utilisateur", Icons.person_outline, false, (value) => username = value),
+                        champsTextes(
+                          "Nom d'utilisateur", 
+                          Icons.person_outline, 
+                          false, (value) => username = value, 
+                          (value){
+                            if(value == null || value.isEmpty){
+                              return "Renseigner un nom d'utilisateur.";
+                            }
+                            return null;
+                          }  
+                        ),
                         
                         const SizedBox(height: 20,),
-                        champsTextes("Adresse Mail", Icons.person_outline, false, (value) => mail = value),
+                        champsTextes(
+                          "Adresse Mail", 
+                          Icons.person_outline, 
+                          false, (value) => mail = value,
+                          (value) {
+                            if(value == null || value.isEmpty){
+                              return "Renseigner un email.";
+                            }
+                            return null;
+                          }
+                        ),
                         
                         const SizedBox(height: 20,),
-                        champsTextes("Mot de passe", Icons.lock_outlined, true, (value) => mdp = value),
+                        champsTextes(
+                          "Mot de passe", 
+                          Icons.lock_outlined, 
+                          true, (value) => mdp = value,
+                          (value){
+                            if(value == null || value.isEmpty){
+                              return "Renseignez un mot de passe";
+                            }
+                            if(value.length < 8){
+                              return "Le mot de passe doit contenir au moin 8 caractères.";
+                            }
+                            return null;
+                          }  
+                        ),
                         
                         const SizedBox(height: 20,),
-                        champsTextes("Confirmer le mot de passe", Icons.lock_outlined, true, (value) => confirmmdp = value),
+                        champsTextes(
+                          "Confirmer le mot de passe", 
+                          Icons.lock_outlined, 
+                          true, 
+                          (value) => confirmmdp = value,
+                          (value){
+                            if(value == null || value.isEmpty){
+                              return "Renseignez un mot de passe";
+                            }
+                            if(value.length < 8){
+                              return "Le mot de passe doit contenir au moin 8 caractères.";
+                            }
+                            return null;
+                          } 
+                        ),
                         
                         const SizedBox(height: 20,),
                         SizedBox(

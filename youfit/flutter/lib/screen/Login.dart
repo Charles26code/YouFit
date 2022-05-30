@@ -5,6 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:youfit/models/user_provider.dart';
+import 'package:youfit/models/user_model.dart';
 
 
 class Login extends StatefulWidget {
@@ -20,10 +23,33 @@ class _LoginState extends State<Login> {
   String? mailusername;
   String? mdp;
 
-  void submitForm(){
-    formKey.currentState?.save();
-    print(mailusername);
-    print(mdp);
+  Future<void> submitForm() async{
+    if (formKey.currentState!.validate()) {
+      try{
+        formKey.currentState?.save();
+        String? retour = await Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).login(mailusername, mdp);
+        if(retour != null){
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(retour),
+              ),
+          );
+        }
+      }catch(e){
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(e.toString()),
+            ),
+        );
+      }
+    }
   }
 
   @override
@@ -82,14 +108,26 @@ class LoginSection extends StatelessWidget {
             "Adresse Mail ou Nom d'utilisateur", 
             Icons.person_outline, 
             false,
-            mailcallback
+            mailcallback,
+            (value) {
+              if(value == null || value.isEmpty){
+                return "Renseigner un nom d'utilisateur ou un email.";
+              }
+              return null;
+            }
           ),
           const SizedBox(height: 20,),
           champsTextes(
             "Mot de passe ", 
             Icons.lock_outlined, 
             true,
-            mdpcallback
+            mdpcallback,
+            (value) {
+              if(value == null || value.isEmpty){
+                return "Renseigner un mot de passe.";
+              }
+              return null;
+            }
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
