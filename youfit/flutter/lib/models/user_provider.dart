@@ -40,8 +40,9 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<String?> login(String? mailusername, String? mdp) async {
+  Future<Map> login(String? mailusername, String? mdp) async {
     try {
+      Map retour = {};
       http.Response response = await http.post(
         Uri.parse('$host/api/users/login'),
         body: json.encode({
@@ -50,17 +51,18 @@ class UserProvider with ChangeNotifier {
         }),
         headers: {'Content-type': 'application/json'},
       );
+      retour.addAll({"statusCode": response.statusCode});
       if (response.statusCode == 200) {
         User monUser = User.fromJson(json.decode(response.body));
-        return monUser.showUser();
+        retour.addAll({"message": monUser.showUser()});
       }
       if (response.statusCode == 401) {
         Map<String, dynamic> json = jsonDecode(response.body);
-        return json['error'];
+        retour.addAll({"message": json['error']});
       }
+      return retour;
     } catch (e) {
       rethrow;
     }
-    return null;
   }
 }

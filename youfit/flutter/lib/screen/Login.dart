@@ -8,6 +8,7 @@ import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:youfit/models/user_provider.dart';
 import 'package:youfit/models/user_model.dart';
+import 'package:youfit/screen/all_layout.dart';
 
 
 class Login extends StatefulWidget {
@@ -27,18 +28,19 @@ class _LoginState extends State<Login> {
     if (formKey.currentState!.validate()) {
       try{
         formKey.currentState?.save();
-        String? retour = await Provider.of<UserProvider>(
+        Map result = await Provider.of<UserProvider>(
           context,
           listen: false,
         ).login(mailusername, mdp);
-        if(retour != null){
-          ScaffoldMessenger.of(context)
-            ..removeCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Text(retour),
-              ),
-          );
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(result['message']),
+            ),
+        );
+        if(result['statusCode'] == 200){
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProgramScreen()));
         }
       }catch(e){
         ScaffoldMessenger.of(context)

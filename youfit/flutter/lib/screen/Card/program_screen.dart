@@ -30,14 +30,14 @@ class Background extends StatelessWidget {
 
 
 //Classe ayant pour but d'afficher l'ensemble des programmes disponible
-class MyCard extends StatefulWidget {
-  const MyCard({Key? key}) : super(key: key);
+class ProgramScreen extends StatefulWidget {
+  const ProgramScreen({Key? key}) : super(key: key);
 
   @override
-  _MyCardState createState() => _MyCardState();
+  _ProgramScreenState createState() => _ProgramScreenState();
 }
 
-class _MyCardState extends State<MyCard> {
+class _ProgramScreenState extends State<ProgramScreen> {
   List cards = [
     {'t': 'CARDIO CIRCUIT', 'n': 'DEBUTANT', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l'extension du texte", 'back': '', 'press': false},
     {'t': "RENFORCEMENT", 'n': 'INTERMEDIAIRE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité", 'back': '', 'press': false},
