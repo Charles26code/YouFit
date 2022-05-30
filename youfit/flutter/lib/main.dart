@@ -4,10 +4,10 @@ import 'package:youfit/models/user_provider.dart';
 import 'package:youfit/screen/AddExercice.dart';
 import 'package:youfit/screen/LoginScreen.dart';
 import 'package:youfit/screen/Login.dart';
-import 'package:youfit/screen/ListExercice.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
 import 'package:provider/provider.dart';
+import 'package:youfit/screen/all_layout.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
-import 'package:youfit/screen/ListExercice.dart';
+import 'package:youfit/screen/Card/program_screen.dart';
 import 'package:youfit/screen/Login.dart';
 
 
