@@ -1,11 +1,13 @@
 import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:youfit/models/user_provider.dart';
 import 'package:youfit/screen/AddExercice.dart';
 import 'package:youfit/screen/LoginScreen.dart';
 import 'package:youfit/screen/Login.dart';
 import 'package:youfit/screen/ListExercice.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,7 +16,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context) => UserProvider(),
+      child: const MaterialApp(
         title: 'YouFit',
         //theme: ThemeData(primarySwatch: Colors.orange),
         debugShowCheckedModeBanner: false,
@@ -27,6 +31,7 @@ class MyApp extends StatelessWidget {
         //home: SignUpScreen(),
         //home: ForgetPassword(),
         home: LoginScreen(),
-        );
+        ),
+    );
   }
 }

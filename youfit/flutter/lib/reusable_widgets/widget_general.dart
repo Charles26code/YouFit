@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-TextField champsTextes(String text, IconData icon, bool isPasswordType,
+TextFormField champsTextes(String text, IconData icon, bool isPasswordType, void Function(String?)? callback, String? Function(String?)? validatorCallback
     /*TextEditingController controller*/) {
-  return TextField(
+  return TextFormField(
     //controller: controller,
     obscureText: isPasswordType,
     enableSuggestions: !isPasswordType,
@@ -26,6 +26,8 @@ TextField champsTextes(String text, IconData icon, bool isPasswordType,
     keyboardType: isPasswordType
         ? TextInputType.visiblePassword
         : TextInputType.emailAddress,
+    onSaved: callback,
+    validator: validatorCallback,
   );
 }
 

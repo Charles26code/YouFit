@@ -5,36 +5,164 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
+import 'package:provider/provider.dart';
+import 'package:youfit/models/user_provider.dart';
+import 'package:youfit/models/user_model.dart';
 
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
+
+  @override
+  State<Login> createState() => _LoginState();
+
+}
+
+class _LoginState extends State<Login> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String? mailusername;
+  String? mdp;
+
+  Future<void> submitForm() async{
+    if (formKey.currentState!.validate()) {
+      try{
+        formKey.currentState?.save();
+        String? retour = await Provider.of<UserProvider>(
+          context,
+          listen: false,
+        ).login(mailusername, mdp);
+        if(retour != null){
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(retour),
+              ),
+          );
+        }
+      }catch(e){
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(e.toString()),
+            ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children:  [
-          const Background(),
-          Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fill,
-              image: AssetImage('img/bg-circle.png'),
-              alignment: FractionalOffset.topCenter,
+      body: Form(
+        key: formKey,
+        child: Stack(
+          children:  [
+            const Background(),
+            Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fill,
+                image: AssetImage('img/bg-circle.png'),
+                alignment: FractionalOffset.topCenter,
+              ),
             ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const LogoSection(),
+                LoginSection(
+                  mailcallback:(value) => mailusername = value, 
+                  mdpcallback: (value) => mdp = value,
+                  submitcallback: () => submitForm(),
+                ),
+                const QuestionSection(),
+              ],
+            ),
+          ],
+        ),
+      )
+      ,
+    );
+  }
+}
+
+class LoginSection extends StatelessWidget {
+  final void Function(String?)? mailcallback;
+  final void Function(String?)? mdpcallback;
+  final void Function()? submitcallback;
+
+  LoginSection({Key? key, required this.mailcallback, required this.mdpcallback, required this.submitcallback}) : super(key: key);
+
+
+  @override
+  Widget build(BuildContext context){
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          champsTextes(
+            "Adresse Mail ou Nom d'utilisateur", 
+            Icons.person_outline, 
+            false,
+            mailcallback,
+            (value) {
+              if(value == null || value.isEmpty){
+                return "Renseigner un nom d'utilisateur ou un email.";
+              }
+              return null;
+            }
           ),
+          const SizedBox(height: 20,),
+          champsTextes(
+            "Mot de passe ", 
+            Icons.lock_outlined, 
+            true,
+            mdpcallback,
+            (value) {
+              if(value == null || value.isEmpty){
+                return "Renseigner un mot de passe.";
+              }
+              return null;
+            }
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              LogoSection(),
-              LoginSection(),
-              QuestionSection(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TextButton(
+                onPressed: () => {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgetPassword()))
+                }, 
+                child: const Text(
+                  'Mot de passe oublié ?',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'PT Sans',
+                      fontSize: 13),
+                ))
             ],
           ),
+          const SizedBox(height: 20,),
+          SizedBox(
+            width: 325,
+            child: FloatingActionButton.extended(
+              backgroundColor: const Color.fromARGB(1000, 0, 232, 51),
+              hoverColor: const Color.fromARGB(255, 0, 255, 55),
+              onPressed: submitcallback,
+              label: const Text(
+                'CONNEXION',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontFamily: 'PT Sans',
+                ),
+              ),
+            ),
+          ),
         ],
-      ),
+      ),  
     );
   }
 }
@@ -107,57 +235,6 @@ class LogoSection extends StatelessWidget {
             ],
           )),
     ]);
-  }
-}
-
-class LoginSection extends StatelessWidget {
-  const LoginSection({Key ? key}) : super(key : key);
-
-  @override
-  Widget build(BuildContext context){
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          champsTextes("Adresse Mail ou Pseudo", Icons.person_outline, false),
-          const SizedBox(height: 20,),
-          champsTextes("Mot de passe ", Icons.lock_outlined, true),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TextButton(
-                onPressed: () => {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgetPassword()))
-                }, 
-                child: const Text(
-                  'Mot de passe oublié ?',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'PT Sans',
-                      fontSize: 13),
-                ))
-            ],
-          ),
-          const SizedBox(height: 20,),
-          SizedBox(
-            width: 325,
-            child: FloatingActionButton.extended(
-              backgroundColor: const Color.fromARGB(1000, 0, 232, 51),
-              hoverColor: const Color.fromARGB(255, 0, 255, 55),
-              onPressed: () {},
-              label: const Text(
-                'CONNEXION',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontFamily: 'PT Sans',
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),  
-    );
   }
 }
 
