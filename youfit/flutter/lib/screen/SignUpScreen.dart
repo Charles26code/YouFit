@@ -3,7 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
 import 'package:youfit/screen/Card/program_screen.dart';
 import 'package:youfit/screen/Login.dart';
-
+import 'package:provider/provider.dart';
+import 'package:youfit/models/user_provider.dart';
+import 'package:youfit/models/user_model.dart';
+import 'package:email_validator/email_validator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -14,25 +17,56 @@ class SignUpScreen extends StatefulWidget {
 
 //Class déstinée au fonctionnement propre de la page d'inscription
 class _SignUpScreenState extends State<SignUpScreen> {
-  final GlobalKey<FormState> formkey= GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey= GlobalKey<FormState>();
   String? username;
   String? mail;
   String? mdp;
   String? confirmmdp;
 
-  void submitForm(){
-    formkey.currentState?.save();
-    print(username);
-    print(mail);
-    print(mdp);
-    print(confirmmdp);
+  Future<void> submitForm() async{
+    if (formKey.currentState!.validate()) {
+      formKey.currentState?.save();
+      if(mdp != confirmmdp){
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text("Les mots de passes de correspondent pas."),
+            ),
+        );
+      }else{
+        try{
+          Map? result = await Provider.of<UserProvider>(
+            context,
+            listen: false,
+          ).addUser(username, mail, mdp);
+          if(result != null){
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(result['message']),
+                ),
+            );
+          }
+        }catch(e){
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+              ),
+          );
+        }
+      }
+    }
   }
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Form(
-        key: formkey,
+        key: formKey,
         child: Stack(
           children: [
             const Background(),
@@ -114,7 +148,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           false, (value) => mail = value,
                           (value) {
                             if(value == null || value.isEmpty){
-                              return "Renseigner un email.";
+                              return "Renseigner une adresse mail.";
+                            }
+                            if(!EmailValidator.validate(value)){
+                              return "Le format de l'adresse mail n'est pas valide.";
                             }
                             return null;
                           }
@@ -133,7 +170,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               return "Le mot de passe doit contenir au moin 8 caractères.";
                             }
                             return null;
-                          }  
+                          }
                         ),
                         
                         const SizedBox(height: 20,),
@@ -144,7 +181,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           (value) => confirmmdp = value,
                           (value){
                             if(value == null || value.isEmpty){
-                              return "Renseignez un mot de passe";
+                              return "Renseignez un mot de passe.";
                             }
                             if(value.length < 8){
                               return "Le mot de passe doit contenir au moin 8 caractères.";

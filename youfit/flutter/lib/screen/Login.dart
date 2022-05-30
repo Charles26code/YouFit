@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
             ),
         );
         if(result['statusCode'] == 200){
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const ProgramScreen()));
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ProgramScreen()), (route) => false);
         }
       }catch(e){
         ScaffoldMessenger.of(context)

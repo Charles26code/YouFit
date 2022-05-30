@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:youfit/reusable_widgets/widget_general.dart';
+import 'package:provider/provider.dart';
+import 'package:youfit/models/user_provider.dart';
+import 'package:youfit/models/user_model.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({Key? key}) : super(key: key);
@@ -12,10 +15,46 @@ class ForgetPassword extends StatefulWidget {
 class _ForgetPasswordState extends State<ForgetPassword> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String? mailusername;
+  String? mdp;
+  String? confirmmdp;
 
-  void submitForm(){
-    formKey.currentState?.save();
-    print(mailusername);
+  Future<void> submitForm() async{
+    if (formKey.currentState!.validate()) {
+      formKey.currentState?.save();
+      if(mdp != confirmmdp){
+        ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            const SnackBar(
+              content: Text("Les mots de passes de correspondent pas."),
+            ),
+        );
+      }else{
+        try{
+          Map? result = await Provider.of<UserProvider>(
+            context,
+            listen: false,
+          ).changePassword(mailusername, mdp);
+          if(result != null){
+            ScaffoldMessenger.of(context)
+              ..removeCurrentSnackBar()
+              ..showSnackBar(
+                SnackBar(
+                  content: Text(result['message']),
+                ),
+            );
+          }
+        }catch(e){
+          ScaffoldMessenger.of(context)
+            ..removeCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Text(e.toString()),
+              ),
+          );
+        }
+      }
+    }
   }
 
   @override
@@ -26,6 +65,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
         child: Stack(
           children:  [
             const Background(),
+            
             Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -35,16 +75,21 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ),
             ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const LogoSection(),
-                MailSection(
-                  mailcallback: (value) => mailusername = value,
-                  submitcallback: () => submitForm(),
-                ),
-              ],
-            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const LogoSection(),
+                  MailSection(
+                    mailcallback: (value) => mailusername = value,
+                    mdpcallback: (value) => mdp = value,
+                    confirmmdpcallback: (value) => confirmmdp = value,
+                    submitcallback: () => submitForm(),
+                  ),
+                ],
+              ),
+            )
+            
           ],
         ),
       ),
@@ -125,10 +170,12 @@ class LogoSection extends StatelessWidget {
 
 class MailSection extends StatelessWidget {
   final void Function(String?)? mailcallback;
+  final void Function(String?)? mdpcallback;
+  final void Function(String?)? confirmmdpcallback;
   final void Function()? submitcallback;
 
 
-  const MailSection({Key ? key, required this.mailcallback, required this.submitcallback}) : super(key : key);
+  const MailSection({Key ? key, required this.mailcallback, required this.submitcallback, required this.mdpcallback, required this.confirmmdpcallback}) : super(key : key);
 
   @override
   Widget build(BuildContext context){
@@ -148,6 +195,39 @@ class MailSection extends StatelessWidget {
               }
               return null;
             }
+          ),
+          const SizedBox(height: 20,),
+          champsTextes(
+            "Mot de passe", 
+            Icons.lock_outlined, 
+            true, 
+            mdpcallback,
+            (value){
+              if(value == null || value.isEmpty){
+                return "Renseignez un mot de passe";
+              }
+              if(value.length < 8){
+                return "Le mot de passe doit contenir au moin 8 caractères.";
+              }
+              return null;
+            }
+          ),
+          
+          const SizedBox(height: 20,),
+          champsTextes(
+            "Confirmer le mot de passe", 
+            Icons.lock_outlined, 
+            true, 
+            confirmmdpcallback,
+            (value){
+              if(value == null || value.isEmpty){
+                return "Renseignez un mot de passe.";
+              }
+              if(value.length < 8){
+                return "Le mot de passe doit contenir au moin 8 caractères.";
+              }
+              return null;
+            } 
           ),
           const SizedBox(height: 20,),
           Padding(
