@@ -30,7 +30,7 @@ app.get("/api/exercices", async (req, res) => {
   }
 });
 
-/*app.post("/api/exercices", async (req, res) => {
+app.post("/api/exercices", async (req, res) => {
   try {
     const body = req.body;
     const exercice = await new Exercice(body).save();
@@ -38,7 +38,7 @@ app.get("/api/exercices", async (req, res) => {
   } catch (e) {
     res.status(500).json(e);
   }
-});*/
+});
 
 
 

@@ -6,6 +6,9 @@ import 'package:youfit/screen/Login.dart';
 import 'package:youfit/screen/ListExercice.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:youfit/screen/ForgetPassword.dart';
+import 'package:youfit/model/exercices_provider.dart';
+import 'package:provider/provider.dart';
+//import 'form_view.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,19 +17,16 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-        title: 'YouFit',
-        //theme: ThemeData(primarySwatch: Colors.orange),
-        debugShowCheckedModeBanner: false,
-        //home: View_1(), // premiere vue
-        // home: View_2(), // premiere vue
-        //home: LoginScreen(), // premiere vue
-        //home: AddExercice() // premiere vue
-        //home: ListExercice() // premiere vue
-        //home: Login(),
-        //home: SignUpScreen(),
-        //home: ForgetPassword(),
-        home: LoginScreen(),
-        );
+// Utilisation d'un provider avec un ChangeNotifierProvider
+// pour notifier les widgets utilisant le provider
+// qu'ils doivent se rebuild s'il est modifi ́e (via la
+// m ́ethode notifyListeners())
+    return ChangeNotifierProvider<ExercicesProvider>(
+        create: (contexte) => ExercicesProvider(),
+        child: const MaterialApp(
+          title: 'YouFit',
+          debugShowCheckedModeBanner: false,
+          home: LoginScreen(),
+        ));
   }
 }
