@@ -144,12 +144,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             test=true;
                           },
                           child: Container(
-                            height: 200,
-                            width: 200,
+                            height: 150,
+                            width: 150,
+                            
                             //Si aucune photo selectioné 'img/profil.png' par default sinon mettre l'image prise
-                            child: test == false
-                              ? Image.asset('img/profile.png')
-                              : Image.file(_image),
+                            child :ClipOval(
+                              //borderRadius: BorderRadius.circular(100),
+                              child: test == false ? Image.asset('img/profile.png') : Image.file(_image),
+                            ),
+
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 108, 108, 108),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(100),
+                              )
+                            ),
                           ),
                         ),
 
