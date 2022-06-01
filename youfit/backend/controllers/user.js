@@ -43,7 +43,7 @@ exports.createUser = (req, res, next) => {
     });
     user.save().then(
       () => res.status(200).json(
-        {message: 'L\'utilisateur '+req.body.username+' a été créé.'}
+        {message: 'Votre compte a été créé.'}
         )
       ).catch(
         error => res.status(400).json(

@@ -56,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   content: Text(result['message']),
                 ),
             );
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
           }
         }catch(e){
           ScaffoldMessenger.of(context)
@@ -150,7 +151,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             //Si aucune photo selectioné 'img/profil.png' par default sinon mettre l'image prise
                             child :ClipOval(
                               //borderRadius: BorderRadius.circular(100),
-                              child: test == false ? Image.asset('img/profile.png') : Image.file(_image),
+                              child: test == false ? Image.asset('img/profile.png', fit: BoxFit.cover,) : Image.file(_image, fit: BoxFit.cover,),
                             ),
 
                             decoration: const BoxDecoration(

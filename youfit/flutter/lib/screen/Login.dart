@@ -71,18 +71,21 @@ class _LoginState extends State<Login> {
               ),
             ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const LogoSection(),
-                LoginSection(
-                  mailcallback:(value) => mailusername = value, 
-                  mdpcallback: (value) => mdp = value,
-                  submitcallback: () => submitForm(),
-                ),
-                const QuestionSection(),
-              ],
-            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const LogoSection(),
+                  LoginSection(
+                    mailcallback:(value) => mailusername = value, 
+                    mdpcallback: (value) => mdp = value,
+                    submitcallback: () => submitForm(),
+                  ),
+                  const QuestionSection(),
+                ],
+              ),
+            )
+            ,
           ],
         ),
       )

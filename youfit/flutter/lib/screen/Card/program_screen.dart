@@ -5,6 +5,7 @@ import 'package:youfit/models/exercice_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:youfit/models/user_model.dart';
 import 'package:youfit/models/favoris_provider.dart';
+import 'package:youfit/screen/Login.dart';
 
 
 //Classe destinée au fond d'écran
@@ -197,7 +198,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                           color: Colors.black,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('img/bg-programscreen.jpg'),
+                            image: AssetImage('img/fitness.jpg'),
                             alignment: FractionalOffset.topCenter,
                           ),
                         ),
@@ -284,7 +285,27 @@ class _ProgramScreenState extends State<ProgramScreen> {
                 Navigator.pop(context);
               },
             ),
-
+            const Divider(
+              thickness: 2,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(255, 108, 108, 108),
+            ),
+            ListTile(
+              title: const Text('Se déconnecter',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Koulen',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                )
+              ),
+              
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Login()), (route) => false);
+              },
+            )
           ],
         ),
       ),
