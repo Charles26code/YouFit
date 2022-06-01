@@ -46,4 +46,23 @@ class ExerciceProvider with ChangeNotifier {
       rethrow;
     }
   }
+
+  createExercice(String? name, String? description, String? difficulty, String? photo) async{
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$host/api/exercices/add'),
+        body: json.encode({
+          "name": name,
+          "description": description,
+          "difficulty": difficulty,
+          "photo": photo,
+        }),
+        headers: {'Content-type': 'application/json'}
+      );
+      String message = json.decode(response.body)['message'];
+      return message;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

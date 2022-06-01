@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:youfit/models/user_model.dart';
 import 'package:youfit/models/favoris_provider.dart';
 import 'package:youfit/screen/Login.dart';
+import 'package:youfit/screen/AddProgramScreen.dart';
 
 
 //Classe destinée au fond d'écran
@@ -279,10 +280,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
               ),
               
               onTap: () {
-                // Navigation vers la page à ajouter
-                // ...
-                // Fermeture du drawer
                 Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => AddProgramScreen(user: widget.user,)));
+                
               },
             ),
             const Divider(
