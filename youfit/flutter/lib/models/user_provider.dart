@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'dart:convert';
-import 'user_model.dart';
-// import 'package:flutter_bcrypt/flutter_bcrypt.dart';
+import 'package:youfit/models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   final String host = 'http://localhost:80';
   List<User> _users = [];
   UnmodifiableListView<User> get users => UnmodifiableListView(_users);
-  // R ́ecup ́erer les donn ́ees dans la base de donn ́ees
-  fetchData() async {
+  // Recuperer les donnees dans la base de donnees
+   fetchData() async {
     try {
       http.Response response = await http.get(Uri.parse('$host/api/users'));
       if (response.statusCode == 200) {
@@ -62,7 +61,8 @@ class UserProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);
         User monUser = User.fromJson(json['user']);
-        retour.addAll({"message": monUser.showUser()});
+        retour.addAll({"message": "Connecté !"});
+        retour.addAll({"user": monUser});
       }
       if (response.statusCode == 401) {
         Map<String, dynamic> json = jsonDecode(response.body);
@@ -79,7 +79,10 @@ class UserProvider with ChangeNotifier {
       Map retour = {};
       http.Response response = await http.post(
         Uri.parse('$host/api/users/changepassword'),
-        body: json.encode({'email': mailusername, 'password': mdp}),
+        body: json.encode({
+          'mailusername': mailusername,
+          'password': mdp
+        }),
         headers: {'Content-type': 'application/json'},
       );
       retour.addAll({"statusCode": response.statusCode});
