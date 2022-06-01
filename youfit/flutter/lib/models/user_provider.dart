@@ -67,7 +67,8 @@ class UserProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);
         User monUser = User.fromJson(json['user']);
-        retour.addAll({"message": monUser.showUser()});
+        retour.addAll({"message": "Connecté !"});
+        retour.addAll({"user": monUser});
       }
       if (response.statusCode == 401) {
         Map<String, dynamic> json = jsonDecode(response.body);

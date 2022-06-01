@@ -9,7 +9,7 @@ class CardLanguage extends StatelessWidget {
   final String description;
   final String background;
   final bool pressed;
-  final VoidCallback updatePressed;
+  final Function updatePressed;
   
   CardLanguage(
   {required this.titre,
@@ -127,12 +127,10 @@ class CardLanguage extends StatelessWidget {
                         children: [
                           FavoriteButton(
                             iconColor: Color.fromARGB(1000, 0, 232, 51),
-                            isFavorite: false,
+                            isFavorite: pressed,
                             iconSize: 40,
                             //iconDisabledColor: Colors.white,
-                            valueChanged: (_isFavorite) {
-                              print('Favoris : $_isFavorite');
-                            },
+                            valueChanged: updatePressed,
                           ),
                         ],
                       ),

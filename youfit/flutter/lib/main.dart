@@ -3,6 +3,7 @@ import 'package:youfit/models/user_provider.dart';
 import 'package:youfit/screen/LoginScreen.dart';
 import 'package:provider/provider.dart';
 import 'package:youfit/models/exercice_provider.dart';
+import 'package:youfit/models/favoris_provider.dart';
 //import 'form_view.dart';
 
 void main() {
@@ -23,6 +24,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<ExerciceProvider>(
           create: (contexte) => ExerciceProvider()
+        ),
+        ChangeNotifierProvider<FavorisProvider>(
+          create: (contexte) => FavorisProvider()
         )
       ],
         child: const MaterialApp(

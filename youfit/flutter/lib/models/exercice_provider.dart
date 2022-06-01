@@ -28,27 +28,7 @@ class ExerciceProvider with ChangeNotifier {
     }
   }
 
-  getExercicesFavorisForOneUser(String userId) async{
-    try {
-      http.Response response = await http.post(
-        Uri.parse('$host/api/favoris/getFavorisForOneUser'),
-        body: json.encode({
-          "userId": userId
-        }),
-        headers: {'Content-type': 'application/json'}
-      );
-      if (response.statusCode == 200) {
-        List ids = [];
-        json.decode(response.body).forEach((element) => ids.add(element['exerciceId']));
-        List exercices = getExercices(ids);
-        return exercices;
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<List?> getExercices(List ids) async{
+  static getExercices(List ids, String host) async{
     try {
       http.Response response = await http.post(
         Uri.parse('$host/api/exercices/getExercices'),
