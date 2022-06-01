@@ -5,6 +5,7 @@ import 'package:youfit/screen/all_layout.dart';
 class CardLanguage extends StatelessWidget {
   final String titre;
   final String niveau;
+  final String numniveau;
   final String description;
   final String background;
   final bool pressed;
@@ -13,6 +14,7 @@ class CardLanguage extends StatelessWidget {
   CardLanguage(
   {required this.titre,
   required this.niveau,
+  required this.numniveau,
   required this.description,
   required this.background,
   required this.pressed,
@@ -82,8 +84,8 @@ class CardLanguage extends StatelessWidget {
                         children: [
                           Text(
                             niveau,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 255, 0, 0),
+                            style: TextStyle(
+                              color: numniveau == "1" ? Colors.blue : (numniveau == "2" ? Colors.yellow : Colors.red),
                               fontFamily: 'Koulen',
                               fontSize: 18,
                               fontWeight: FontWeight.bold

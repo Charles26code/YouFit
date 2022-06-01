@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:youfit/models/exercice_model.dart';
 import 'package:youfit/screen/all_layout.dart';
 import 'package:youfit/screen/SignUpScreen.dart';
+import 'package:youfit/models/exercice_provider.dart';
+import 'package:provider/provider.dart';
 
 
 //Classe destinée au fond d'écran
@@ -35,15 +38,44 @@ class ProgramScreen extends StatefulWidget {
 
   @override
   _ProgramScreenState createState() => _ProgramScreenState();
+
 }
 
 class _ProgramScreenState extends State<ProgramScreen> {
-  List cards = [
-    {'t': 'CARDIO CIRCUIT', 'n': 'DEBUTANT', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l'extension du texte", 'back': '', 'press': false},
-    {'t': "RENFORCEMENT", 'n': 'INTERMEDIAIRE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité", 'back': '', 'press': false},
-    {'t': "PERTE DE POIDS", 'n': 'AVANCE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité", 'back': '', 'press': false},
-    {'t': "MUSCULATION", 'n': 'INTERMEDIAIRE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l'extension du texte", 'back': '', 'press': false},
-  ];
+  List cards = [];
+
+  @override
+  void initState(){
+    super.initState();
+    fillCards();
+  }
+
+  Future<void> fillCards() async{
+    try{
+      List mesExos = [];
+      List result = await Provider.of<ExerciceProvider>(
+          context,
+          listen: false,
+        ).getAllExercices();
+
+      for(int i = 0; i<result.length; i++){
+        Exercice unExo = result[i];
+        mesExos.addAll([{
+          't' : unExo.name, 
+          'n' : unExo.difficultyToString(),
+          'd' : unExo.description,
+          'back': '', 
+          'press': false,
+          'difficulty': unExo.difficulty
+        }]);
+      }
+      setState(() {
+        cards = mesExos;
+      });
+    }catch(e){
+      print(e);
+    }
+  }
     
   void press(card) {
     int index = cards.indexOf(card);
@@ -72,6 +104,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                 return CardLanguage(
                   titre: cards[i]['t'],
                   niveau: cards[i]['n'],
+                  numniveau: cards[i]['difficulty'],
                   description: cards[i]['d'],
                   background: cards[i]['back'],
                   pressed: cards[i]['press'],

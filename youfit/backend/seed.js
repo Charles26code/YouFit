@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const exercice = require("./models/exercices.model");
+const exercice = require("./models/exercice");
 const user = require("./models/user");
 
 // Pour utiliser les images depuis le backend
@@ -7,7 +7,7 @@ const user = require("./models/user");
 
 mongoose
   .connect(
-    "mongodb+srv://test:test@youfitcluster.okkcr.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://root:root@youfitcluster.okkcr.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true
     }
@@ -15,41 +15,29 @@ mongoose
   .then(() => {
     Promise.all([
       new exercice({
-        name: 'Push ups',
+        name: 'CARDIO CIRCUIT',
         photo: 'img/fitness.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        difficulty: 'Easy',
+        description: 'Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l\'extension du texte',
+        difficulty: '1',
       }).save(),
       new exercice({
-        name: 'Pull ups',
+        name: 'RENFORCEMENT',
         photo: 'img/fitness.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        difficulty: 'Easy',
+        description: 'Renforcer votre cardio en 8 semaines et gagner en explosivité.',
+        difficulty: '2',
       }).save(),
       new exercice({
-        name: 'Australian Pull ups',
+        name: 'PERTE DE POIDS',
         photo: 'img/fitness.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        difficulty: 'Easy',
+        description: 'Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l\'extension du texte',
+        difficulty: '3',
       }).save(),
       new exercice({
-        name: 'Handstand',
+        name: 'MUSCULATION',
         photo: 'img/fitness.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        difficulty: 'Medium',
+        description: 'Renforcer votre cardio en 8 semaines et gagner en explosivité.',
+        difficulty: '1',
       }).save(),
-      new exercice({
-        name: 'Front Lever',
-        photo: 'img/fitness.jpg',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        difficulty: 'Hard',
-      }).save(),,
-      new user({
-        username: "Sofiane",
-        email: "Sofiane@RADJAH.fr",
-        password: "123456",
-      }).save()
-
     ]).then(res => {
       console.log("data installed");
       mongoose.connection.close();

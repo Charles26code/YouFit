@@ -75,7 +75,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.changePassword = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ $or: [{email: req.body.mailusername}, {username: req.body.mailusername}] })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Aucun utilisateur n\'est enregistré avec cet email' });

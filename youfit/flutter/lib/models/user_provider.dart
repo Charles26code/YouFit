@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'dart:convert';
-import 'user_model.dart';
+import 'package:youfit/models/user_model.dart';
 
 class UserProvider with ChangeNotifier {
   final String host = 'http://localhost:80';
   List<User> _users = [];
   UnmodifiableListView<User> get users => UnmodifiableListView(_users);
-  // R ́ecup ́erer les donn ́ees dans la base de donn ́ees
+  // Recuperer les donnees dans la base de donnees
    fetchData() async {
     try {
     http.Response response = await http.get(Uri.parse('$host/api/users'));
@@ -85,7 +85,7 @@ class UserProvider with ChangeNotifier {
       http.Response response = await http.post(
         Uri.parse('$host/api/users/changepassword'),
         body: json.encode({
-          'email': mailusername,
+          'mailusername': mailusername,
           'password': mdp
         }),
         headers: {'Content-type': 'application/json'},

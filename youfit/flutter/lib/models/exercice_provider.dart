@@ -12,30 +12,23 @@ import 'package:youfit/models/exercice_model.dart';
 // backend> npm start
 
 class ExerciceProvider with ChangeNotifier {
-  final String host = 'http://localhost:3000';
-  List<Exercice> _users = [];
+  final String host = 'http://localhost:80';
 
-  // Getter pour l'accès en lecture de l'ensemble des profiles
-  // Pas de modificiation possible grâce au type UnmodifiableListView
-  UnmodifiableListView<Exercice> get users => UnmodifiableListView(_users);
-
-  //Méthodes à refaire pour exercice
-
-  /*// Récupérer les données dans la base de données
-  void fetchData() async {
+  // Récupérer les données dans la base de données
+  getAllExercices() async {
     try {
-      http.Response response = await http.get(Uri.parse('$host/api/users'));
+      http.Response response = await http.get(Uri.parse('$host/api/exercices'));
       if (response.statusCode == 200) {
-        _users = (json.decode(response.body) as List)
-            .map((userJson) => Exercice.fromJson(userJson))
-            .toList();
-        notifyListeners();
+        List result = [];
+        json.decode(response.body).forEach((json) => result.addAll([Exercice.fromJson(json)]));
+        return result;
       }
     } catch (e) {
       rethrow;
     }
   }
 
+/*
   // Ajouter un profile dans la base de données
   Future<void> addUser(Exercice newUser) async {
     try {
