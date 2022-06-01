@@ -5,27 +5,29 @@ import 'package:http/http.dart' as http;
 import 'dart:collection'; // nouveaux type de listes comme UnmodifiableListView
 import 'dart:convert'; // pour decoder la réponse http
 
-import 'exercices_model.dart';
+import 'package:youfit/models/exercice_model.dart';
 
 // Commandes utiles :
 // Lancer le serveur node (attendre le message "connexion ok !")
 // backend> npm start
 
-class UserProvider with ChangeNotifier {
+class ExerciceProvider with ChangeNotifier {
   final String host = 'http://localhost:3000';
-  List<Exercices> _users = [];
+  List<Exercice> _users = [];
 
   // Getter pour l'accès en lecture de l'ensemble des profiles
   // Pas de modificiation possible grâce au type UnmodifiableListView
-  UnmodifiableListView<Exercices> get users => UnmodifiableListView(_users);
+  UnmodifiableListView<Exercice> get users => UnmodifiableListView(_users);
 
-  // Récupérer les données dans la base de données
+  //Méthodes à refaire pour exercice
+
+  /*// Récupérer les données dans la base de données
   void fetchData() async {
     try {
       http.Response response = await http.get(Uri.parse('$host/api/users'));
       if (response.statusCode == 200) {
         _users = (json.decode(response.body) as List)
-            .map((userJson) => Exercices.fromJson(userJson))
+            .map((userJson) => Exercice.fromJson(userJson))
             .toList();
         notifyListeners();
       }
@@ -35,7 +37,7 @@ class UserProvider with ChangeNotifier {
   }
 
   // Ajouter un profile dans la base de données
-  Future<void> addUser(Exercices newUser) async {
+  Future<void> addUser(Exercice newUser) async {
     try {
       http.Response response = await http.post(
         Uri.parse('$host/api/users'),
@@ -44,7 +46,7 @@ class UserProvider with ChangeNotifier {
       );
       if (response.statusCode == 200) {
         _users.add(
-          Exercices.fromJson(
+          Exercice.fromJson(
             json.decode(response.body),
           ),
         );
@@ -55,7 +57,7 @@ class UserProvider with ChangeNotifier {
     }
   }
 
-  Future<String> logUser(Exercices user) async {
+  Future<String> logUser(Exercice user) async {
     try {
       http.Response response = await http.post(
         Uri.parse('$host/api/users/login'),
@@ -72,5 +74,5 @@ class UserProvider with ChangeNotifier {
     } catch (e) {
       rethrow;
     }
-  }
+  }*/
 }

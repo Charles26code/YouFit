@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'dart:convert';
 import 'user_model.dart';
-import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 
 class UserProvider with ChangeNotifier {
   final String host = 'http://localhost:80';
