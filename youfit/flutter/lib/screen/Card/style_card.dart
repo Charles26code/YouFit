@@ -5,14 +5,16 @@ import 'package:youfit/screen/all_layout.dart';
 class CardLanguage extends StatelessWidget {
   final String titre;
   final String niveau;
+  final String numniveau;
   final String description;
   final String background;
   final bool pressed;
-  final VoidCallback updatePressed;
+  final Function updatePressed;
   
   CardLanguage(
   {required this.titre,
   required this.niveau,
+  required this.numniveau,
   required this.description,
   required this.background,
   required this.pressed,
@@ -82,8 +84,8 @@ class CardLanguage extends StatelessWidget {
                         children: [
                           Text(
                             niveau,
-                            style: const TextStyle(
-                              color: Color.fromARGB(255, 255, 0, 0),
+                            style: TextStyle(
+                              color: numniveau == "1" ? Colors.blue : (numniveau == "2" ? Colors.yellow : Colors.red),
                               fontFamily: 'Koulen',
                               fontSize: 18,
                               fontWeight: FontWeight.bold
@@ -125,12 +127,10 @@ class CardLanguage extends StatelessWidget {
                         children: [
                           FavoriteButton(
                             iconColor: Color.fromARGB(1000, 0, 232, 51),
-                            isFavorite: false,
+                            isFavorite: pressed,
                             iconSize: 40,
                             //iconDisabledColor: Colors.white,
-                            valueChanged: (_isFavorite) {
-                              print('Favoris : $_isFavorite');
-                            },
+                            valueChanged: updatePressed,
                           ),
                         ],
                       ),

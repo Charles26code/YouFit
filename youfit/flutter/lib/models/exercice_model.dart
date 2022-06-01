@@ -3,7 +3,7 @@ class Exercice {
   String name;
   String photo;
   String description;
-  int difficulty;
+  String difficulty;
 
   Exercice({
     this.id,
@@ -13,13 +13,12 @@ class Exercice {
     required this.difficulty
   });
 
-  fromJson(Map<String, dynamic> json){
-    id = json['_id'];
-    name = json['name'];
-    photo = json['photo'];
-    description = json['description'];
-    difficulty = json['difficulty'];
-  }
+  Exercice.fromJson(Map<String, dynamic> json)
+      : id = json['_id'],
+        name = json['name'],
+        description = json['description'],
+        photo = json['photo'],
+        difficulty = json['difficulty'];
 
   Map<String, dynamic> toJson() {
     if (id != null) {
@@ -38,6 +37,16 @@ class Exercice {
         'difficulty': difficulty
       };
     }
+  }
+
+  difficultyToString(){
+    Map result ={
+      "1" : "DEBUTANT",
+      "2" : "INTERMEDIAIRE",
+      "3" : "AVANCE",
+    };
+
+    return result[difficulty];
   }
   
 }
