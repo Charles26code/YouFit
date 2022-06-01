@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:youfit/models/exercice_model.dart';
 import 'package:youfit/screen/all_layout.dart';
-import 'package:youfit/screen/SignUpScreen.dart';
+import 'package:youfit/models/exercice_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:youfit/models/user_model.dart';
+import 'package:youfit/models/favoris_provider.dart';
+import 'package:youfit/screen/Login.dart';
 
 
 //Classe destinée au fond d'écran
@@ -31,22 +36,102 @@ class Background extends StatelessWidget {
 
 //Classe ayant pour but d'afficher l'ensemble des programmes disponible
 class ProgramScreen extends StatefulWidget {
-  const ProgramScreen({Key? key}) : super(key: key);
+  final User user;
+  final bool isFavoritePage;
+
+  const ProgramScreen({Key? key, required this.user, required this.isFavoritePage}) : super(key: key);
 
   @override
   _ProgramScreenState createState() => _ProgramScreenState();
+
 }
 
 class _ProgramScreenState extends State<ProgramScreen> {
-  List cards = [
-    {'t': 'CARDIO CIRCUIT', 'n': 'DEBUTANT', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l'extension du texte", 'back': '', 'press': false},
-    {'t': "RENFORCEMENT", 'n': 'INTERMEDIAIRE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité", 'back': '', 'press': false},
-    {'t': "PERTE DE POIDS", 'n': 'AVANCE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité", 'back': '', 'press': false},
-    {'t': "MUSCULATION", 'n': 'INTERMEDIAIRE', 'd': "Renforcer votre cardio en 8 semaines et gagner en explosivité, voici un test pour l'extension du texte", 'back': '', 'press': false},
-  ];
+  List cards = [];
+  @override
+  void initState(){
+    super.initState();
+    fillCards(widget.user.id, widget.isFavoritePage);
+  }
+
+  Future<void> fillCards(String? userId, bool isFavoritePage) async{
+    try{
+      List exos = await Provider.of<ExerciceProvider>(
+          context,
+          listen: false,
+        ).getAllExercices(); //Tout les exos
+      List mesExos = await Provider.of<FavorisProvider>(
+          context,
+          listen: false,
+        ).getExercicesFavorisForOneUser(userId!); //Les exos du user
+      List myCards = [];
+      if(isFavoritePage){
+        for(int i = 0; i<mesExos.length; i++){
+          Exercice unExo = mesExos[i];
+          myCards.addAll([{
+            't' : unExo.name, 
+            'n' : unExo.difficultyToString(),
+            'd' : unExo.description,
+            'back': '', 
+            'press': true,
+            'difficulty': unExo.difficulty,
+            'exerciceId': unExo.id
+          }]);
+        }
+      }else{
+        for(int i = 0; i<exos.length; i++){
+          Exercice unExo = exos[i];
+          bool pressed = false;
+          mesExos.forEach((element) {
+            if(element.id == unExo.id){
+              pressed = true;
+            }
+          });
+          myCards.addAll([{
+            't' : unExo.name, 
+            'n' : unExo.difficultyToString(),
+            'd' : unExo.description,
+            'back': '', 
+            'press': pressed,
+            'difficulty': unExo.difficulty,
+            'exerciceId': unExo.id
+          }]);
+        }
+      }
+      setState(() {
+        cards = myCards;
+      });
+    }catch(e){
+      print(e);
+    }
+  }
     
-  void press(card) {
+  void press(card, bool isFavorite) async{
     int index = cards.indexOf(card);
+    String message = "";
+    if(isFavorite){
+      message = await Provider.of<FavorisProvider>(
+          context,
+          listen: false,
+        ).addToFavoris(widget.user.id!, cards[index]['exerciceId']);
+    }else{
+      message = await Provider.of<FavorisProvider>(
+          context,
+          listen: false,
+        ).removeFromFavoris(widget.user.id!, cards[index]['exerciceId']);
+      if(widget.isFavoritePage){
+        Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: true)));
+      }
+    }
+    
+    ScaffoldMessenger.of(context)
+          ..removeCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(message),
+            ),
+        );
     setState(() {
       cards[index]['press'] = !cards[index]['press'];
     });
@@ -72,11 +157,12 @@ class _ProgramScreenState extends State<ProgramScreen> {
                 return CardLanguage(
                   titre: cards[i]['t'],
                   niveau: cards[i]['n'],
+                  numniveau: cards[i]['difficulty'],
                   description: cards[i]['d'],
                   background: cards[i]['back'],
                   pressed: cards[i]['press'],
-                  updatePressed: () {
-                    press(cards[i]);
+                  updatePressed: (_isFavorite) {
+                    press(cards[i], _isFavorite);
                   },
                 );
               },
@@ -112,7 +198,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
                           color: Colors.black,
                           image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('img/bg-programscreen.jpg'),
+                            image: AssetImage('img/fitness.jpg'),
                             alignment: FractionalOffset.topCenter,
                           ),
                         ),
@@ -146,12 +232,9 @@ class _ProgramScreenState extends State<ProgramScreen> {
                   fontWeight: FontWeight.bold
                 )
               ),
-
               onTap: () {
-                // Navigation vers la page à ajouter
-                // ...
-                // Fermeture du drawer
                 Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: false)));
               },
             ),
             
@@ -173,10 +256,8 @@ class _ProgramScreenState extends State<ProgramScreen> {
               ),
               
               onTap: () {
-                // Navigation vers la page à ajouter
-                // ...
-                // Fermeture du drawer
                 Navigator.pop(context);
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: true)));
               },
             ),
             
@@ -204,7 +285,27 @@ class _ProgramScreenState extends State<ProgramScreen> {
                 Navigator.pop(context);
               },
             ),
-
+            const Divider(
+              thickness: 2,
+              indent: 15,
+              endIndent: 15,
+              color: Color.fromARGB(255, 108, 108, 108),
+            ),
+            ListTile(
+              title: const Text('Se déconnecter',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Koulen',
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                )
+              ),
+              
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const Login()), (route) => false);
+              },
+            )
           ],
         ),
       ),

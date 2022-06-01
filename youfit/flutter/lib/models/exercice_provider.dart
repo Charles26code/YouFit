@@ -5,69 +5,42 @@ import 'package:http/http.dart' as http;
 import 'dart:collection'; // nouveaux type de listes comme UnmodifiableListView
 import 'dart:convert'; // pour decoder la réponse http
 
-import 'exercices_model.dart';
+import 'package:youfit/models/exercice_model.dart';
 
 // Commandes utiles :
 // Lancer le serveur node (attendre le message "connexion ok !")
 // backend> npm start
 
-class ExercicesProvider with ChangeNotifier {
-  final String host = 'http://localhost:3000';
-  List<Exercices> _users = [];
-
-  // Getter pour l'accès en lecture de l'ensemble des profiles
-  // Pas de modificiation possible grâce au type UnmodifiableListView
-  UnmodifiableListView<Exercices> get users => UnmodifiableListView(_users);
+class ExerciceProvider with ChangeNotifier {
+  final String host = 'http://localhost:80';
 
   // Récupérer les données dans la base de données
-  void fetchData() async {
+  getAllExercices() async {
     try {
-      http.Response response = await http.get(Uri.parse('$host/api/users'));
+      http.Response response = await http.get(Uri.parse('$host/api/exercices'));
       if (response.statusCode == 200) {
-        _users = (json.decode(response.body) as List)
-            .map((userJson) => Exercices.fromJson(userJson))
-            .toList();
-        notifyListeners();
+        List result = [];
+        json.decode(response.body).forEach((element) => result.addAll([Exercice.fromJson(element)]));
+        return result;
       }
     } catch (e) {
       rethrow;
     }
   }
 
-  // Ajouter un profile dans la base de données
-  Future<void> addUser(Exercices newUser) async {
+  static getExercices(List ids, String host) async{
     try {
       http.Response response = await http.post(
-        Uri.parse('$host/api/users'),
-        body: json.encode(newUser.toJson()),
-        headers: {'Content-type': 'application/json'},
+        Uri.parse('$host/api/exercices/getExercices'),
+        body: json.encode({
+          "ids": ids
+        }),
+        headers: {'Content-type': 'application/json'}
       );
       if (response.statusCode == 200) {
-        _users.add(
-          Exercices.fromJson(
-            json.decode(response.body),
-          ),
-        );
-        notifyListeners();
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<String> logUser(Exercices user) async {
-    try {
-      http.Response response = await http.post(
-        Uri.parse('$host/api/users/login'),
-        body: json.encode(user.toJson()),
-        headers: {'Content-type': 'application/json'},
-      );
-      Map<String, dynamic> temp = json.decode(response.body);
-
-      if (response.statusCode == 200) {
-        return ("200");
-      } else {
-        return (temp['error']);
+        List exercices = [];
+        json.decode(response.body).forEach((element) => exercices.addAll([Exercice.fromJson(element)]));
+        return exercices;
       }
     } catch (e) {
       rethrow;
