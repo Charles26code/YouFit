@@ -48,7 +48,7 @@ class ExerciceProvider with ChangeNotifier {
     }
   }
 
-  getExercices(List ids) async{
+  Future<List?> getExercices(List ids) async{
     try {
       http.Response response = await http.post(
         Uri.parse('$host/api/exercices/getExercices'),
