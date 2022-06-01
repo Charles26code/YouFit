@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:youfit/models/exercice_model.dart';
-import 'package:youfit/models/exercice_provider.dart';
-import 'package:youfit/models/user_model.dart';
-// import 'model/exercices_provider.dart';
+import 'package:youfit/model/exercices_model.dart';
+import 'model/exercices_provider.dart';
 
 class FromView extends StatefulWidget {
   const FromView({Key? key}) : super(key: key);
@@ -15,16 +13,16 @@ class FromView extends StatefulWidget {
 class _FromViewState extends State<FromView> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
-  late Exercice newProfile;
+  late Exercices newProfile;
   String? email;
   DateTime? birthdate;
   @override
   void initState() {
-    newProfile = User(
+    newProfile = Exercices(
+      id: '',
       email: '',
       password: '',
-      username: '',
-    ) as Exercice;
+    );
     super.initState();
   }
 
