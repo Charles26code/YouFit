@@ -2025,7 +2025,6 @@ SOFTWARE.
 --------------------------------------------------------------------------------
 async
 collection
-typed_data
 
 Copyright 2015, the Dart project authors. 
 
@@ -4881,6 +4880,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 --------------------------------------------------------------------------------
 charcode
+http_parser
 stack_trace
 string_scanner
 
@@ -10711,7 +10711,6 @@ ON AN "AS IS" BASIS, AND THE COPYRIGHT HOLDER HAS NO OBLIGATION TO
 PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
 --------------------------------------------------------------------------------
 http
-http_parser
 matcher
 path
 source_span
@@ -13537,7 +13536,7 @@ xml
 
 The MIT License
 
-Copyright (c) 2006-2022 Lukas Renggli.
+Copyright (c) 2006-2021 Lukas Renggli.
 All rights reserved.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -16338,6 +16337,7 @@ May you find forgiveness for yourself and forgive others
 May you share freely, never taking more than you give.
 --------------------------------------------------------------------------------
 stream_channel
+typed_data
 
 Copyright 2015, the Dart project authors. All rights reserved.
 Redistribution and use in source and binary forms, with or without
