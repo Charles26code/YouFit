@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\sofia\\Documents\\Mes projets\\cours appli mobile\\projet_final\\YouFit\\youfit\\flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
+            "outputFile": "C:\\Users\\maxen\\OneDrive\\Documents\\CNAM\\Semestre 4\\Application mobile\\YouFit\\youfit\\flutter\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-night-v8\\values-night-v8.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\sofia\\Documents\\Mes projets\\cours appli mobile\\projet_final\\YouFit\\youfit\\flutter\\android\\app\\src\\main\\res\\values-night\\styles.xml",
+                    "source": "C:\\Users\\maxen\\OneDrive\\Documents\\CNAM\\Semestre 4\\Application mobile\\YouFit\\youfit\\flutter\\android\\app\\src\\main\\res\\values-night\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
