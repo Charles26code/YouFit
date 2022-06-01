@@ -8,6 +8,10 @@ import 'package:youfit/models/user_provider.dart';
 import 'package:youfit/models/user_model.dart';
 import 'package:email_validator/email_validator.dart';
 
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
 
@@ -22,6 +26,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String? mail;
   String? mdp;
   String? confirmmdp;
+
+  bool test =false;
+  late File _image ;
+  final picker = ImagePicker();
 
   Future<void> submitForm() async{
     if (formKey.currentState!.validate()) {
@@ -48,6 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   content: Text(result['message']),
                 ),
             );
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
           }
         }catch(e){
           ScaffoldMessenger.of(context)
@@ -121,6 +130,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ],
                   ),
                 ),
+
+                
                 SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(40, 20, 40, 0),
@@ -128,6 +139,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Column(
                       
                       children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+                            _showSelectionDialog();
+                            test=true;
+                          },
+                          child: Container(
+                            height: 150,
+                            width: 150,
+                            
+                            //Si aucune photo selectioné 'img/profil.png' par default sinon mettre l'image prise
+                            child :ClipOval(
+                              //borderRadius: BorderRadius.circular(100),
+                              child: test == false ? Image.asset('img/profile.png', fit: BoxFit.cover,) : Image.file(_image, fit: BoxFit.cover,),
+                            ),
+
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 108, 108, 108),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(100),
+                              )
+                            ),
+                          ),
+                        ),
+
                         const SizedBox(height: 20,),
                         champsTextes(
                           "Nom d'utilisateur", 
@@ -233,6 +268,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
+
+  //Fonction permettant de gérer la caméra
+  Future selectOrTakePhoto(ImageSource imageSource) async {
+    //Selectione l'image prise avec la camera ou selectioné dans la galerie. L'argument source indique d'où l'image doit être extraite.
+    final pickedFile = await picker.pickImage(source: imageSource);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);        
+      } else {
+        print('No photo was selected or taken');
+      }
+    });
+  }
+
+	//Boite de dialogue permettant soit la prise, soit la selection de photo
+  Future _showSelectionDialog() async {
+    await showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Photo de profil'),
+          actions: <Widget>[
+            SimpleDialogOption(
+              child: const Text('Depuis la galerie'),
+              onPressed: () {
+                selectOrTakePhoto(ImageSource.gallery);
+                Navigator.pop(context);
+              },
+            ),
+            SimpleDialogOption(
+              child: const Text('Prendre une photo'),
+              onPressed: () {
+                selectOrTakePhoto(ImageSource.camera);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      }
+    );
+  }
+
+
 }
 
 

@@ -43,7 +43,7 @@ exports.createUser = (req, res, next) => {
     });
     user.save().then(
       () => res.status(200).json(
-        {message: 'L\'utilisateur '+req.body.username+' a été créé.'}
+        {message: 'Votre compte a été créé.'}
         )
       ).catch(
         error => res.status(400).json(
@@ -75,7 +75,7 @@ exports.login = (req, res, next) => {
 };
 
 exports.changePassword = (req, res, next) => {
-  User.findOne({ email: req.body.email })
+  User.findOne({ $or: [{email: req.body.mailusername}, {username: req.body.mailusername}] })
     .then(user => {
       if (!user) {
         return res.status(401).json({ error: 'Aucun utilisateur n\'est enregistré avec cet email' });

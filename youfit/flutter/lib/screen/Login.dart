@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
             ),
         );
         if(result['statusCode'] == 200){
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const ProgramScreen()), (route) => false);
+          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: result['user'], isFavoritePage: false,)), (route) => false);
         }
       }catch(e){
         ScaffoldMessenger.of(context)
@@ -71,18 +71,21 @@ class _LoginState extends State<Login> {
               ),
             ),
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const LogoSection(),
-                LoginSection(
-                  mailcallback:(value) => mailusername = value, 
-                  mdpcallback: (value) => mdp = value,
-                  submitcallback: () => submitForm(),
-                ),
-                const QuestionSection(),
-              ],
-            ),
+            SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const LogoSection(),
+                  LoginSection(
+                    mailcallback:(value) => mailusername = value, 
+                    mdpcallback: (value) => mdp = value,
+                    submitcallback: () => submitForm(),
+                  ),
+                  const QuestionSection(),
+                ],
+              ),
+            )
+            ,
           ],
         ),
       )
