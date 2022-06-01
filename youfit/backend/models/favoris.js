@@ -6,6 +6,6 @@ const favorisSchema = mongoose.Schema({
   exerciceId: { type: String, required: true },
 });
 
-exerciceSchema.plugin(uniqueValidator);
+favorisSchema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("favoris", favorisSchema);

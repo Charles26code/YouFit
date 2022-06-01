@@ -20,8 +20,47 @@ class ExerciceProvider with ChangeNotifier {
       http.Response response = await http.get(Uri.parse('$host/api/exercices'));
       if (response.statusCode == 200) {
         List result = [];
-        json.decode(response.body).forEach((json) => result.addAll([Exercice.fromJson(json)]));
+        json.decode(response.body).forEach((element) => result.addAll([Exercice.fromJson(element)]));
         return result;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getExercicesFavorisForOneUser(String userId) async{
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$host/api/favoris/getFavorisForOneUser'),
+        body: json.encode({
+          "userId": userId
+        }),
+        headers: {'Content-type': 'application/json'}
+      );
+      if (response.statusCode == 200) {
+        List ids = [];
+        json.decode(response.body).forEach((element) => ids.add(element['exerciceId']));
+        List exercices = getExercices(ids);
+        return exercices;
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  getExercices(List ids) async{
+    try {
+      http.Response response = await http.post(
+        Uri.parse('$host/api/exercices/getExercices'),
+        body: json.encode({
+          "ids": ids
+        }),
+        headers: {'Content-type': 'application/json'}
+      );
+      if (response.statusCode == 200) {
+        List exercices = [];
+        json.decode(response.body).forEach((element) => exercices.addAll([Exercice.fromJson(element)]));
+        return exercices;
       }
     } catch (e) {
       rethrow;

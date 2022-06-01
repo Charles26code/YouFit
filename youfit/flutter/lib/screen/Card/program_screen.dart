@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youfit/models/exercice_model.dart';
 import 'package:youfit/screen/all_layout.dart';
-import 'package:youfit/screen/SignUpScreen.dart';
 import 'package:youfit/models/exercice_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -47,16 +46,26 @@ class _ProgramScreenState extends State<ProgramScreen> {
   @override
   void initState(){
     super.initState();
-    fillCards();
+    fillCards("62948a1d90501444c4ec0759");
   }
 
-  Future<void> fillCards() async{
+  Future<void> fillCards(String? userId) async{
     try{
       List mesExos = [];
-      List result = await Provider.of<ExerciceProvider>(
+      List result = [];
+      if(userId == null){
+        result = await Provider.of<ExerciceProvider>(
           context,
           listen: false,
         ).getAllExercices();
+      }else{
+        result = await Provider.of<ExerciceProvider>(
+          context,
+          listen: false,
+        ).getExercicesFavorisForOneUser(userId);
+        print(result);
+      }
+      
 
       for(int i = 0; i<result.length; i++){
         Exercice unExo = result[i];

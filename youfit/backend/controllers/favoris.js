@@ -4,9 +4,9 @@ const jwt = require('jsonwebtoken');
 
 
 exports.getFavorisForOneUser = (req, res, next) => {
-  Exercice.find().then(
-    (exercices) => {
-      res.status(200).json(exercices);
+  Favoris.find({userId : req.body.userId}).then(
+    (favoris) => {
+      res.status(200).json(favoris);
     }
   ).catch(
     (error) => {
