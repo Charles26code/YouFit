@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
-TextFormField champsTextes(String text, IconData icon, bool isPasswordType, void Function(String?)? callback, String? Function(String?)? validatorCallback
-    /*TextEditingController controller*/) {
+TextFormField champsTextes(
+    String text,
+    IconData icon,
+    bool isPasswordType,
+    void Function(String?)? callback,
+    String? Function(String?)?
+        validatorCallback /*TextEditingController controller*/) {
   return TextFormField(
     //controller: controller,
     obscureText: isPasswordType,

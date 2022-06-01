@@ -47,6 +47,7 @@ dependencies:
   intl: ^0.17.0
   favorite_button: ^0.0.4
   email_validator: ^2.0.1
+  custom_check_box: ^0.0.4
 
 
 dev_dependencies:

@@ -5,15 +5,18 @@ class Exercice {
   String description;
   int difficulty;
 
-  Exercice({
-    this.id,
-    required this.name,
-    required this.photo,
-    required this.description,
-    required this.difficulty
-  });
+  Exercice(
+      {this.id,
+      required this.name,
+      required this.photo,
+      required this.description,
+      required this.difficulty});
 
-  fromJson(Map<String, dynamic> json){
+  set password(String password) {}
+
+  set email(String email) {}
+
+  fromJson(Map<String, dynamic> json) {
     id = json['_id'];
     name = json['name'];
     photo = json['photo'];
@@ -39,5 +42,4 @@ class Exercice {
       };
     }
   }
-  
 }
