@@ -3,23 +3,23 @@ import 'package:http/http.dart' as http;
 import 'dart:collection';
 import 'dart:convert';
 import 'user_model.dart';
-import 'package:flutter_bcrypt/flutter_bcrypt.dart';
+// import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 
 class UserProvider with ChangeNotifier {
   final String host = 'http://localhost:80';
   List<User> _users = [];
   UnmodifiableListView<User> get users => UnmodifiableListView(_users);
   // R ́ecup ́erer les donn ́ees dans la base de donn ́ees
-   fetchData() async {
+  fetchData() async {
     try {
-    http.Response response = await http.get(Uri.parse('$host/api/users'));
-    if (response.statusCode == 200) {
-      _users = (json.decode(response.body) as List)
-      .map((userJson) => User.fromJson(userJson))
-      .toList();
-      notifyListeners();
-      return _users;
-    }
+      http.Response response = await http.get(Uri.parse('$host/api/users'));
+      if (response.statusCode == 200) {
+        _users = (json.decode(response.body) as List)
+            .map((userJson) => User.fromJson(userJson))
+            .toList();
+        notifyListeners();
+        return _users;
+      }
     } catch (e) {
       rethrow;
     }
@@ -31,21 +31,18 @@ class UserProvider with ChangeNotifier {
       Map? result = {};
       http.Response response = await http.post(
         Uri.parse('$host/api/users/add'),
-        body: json.encode({
-          "username": username,
-          "email": mail,
-          "password": mdp
-        }),
+        body:
+            json.encode({"username": username, "email": mail, "password": mdp}),
         headers: {'Content-type': 'application/json'},
       );
-      result.addAll({"statusCode" : response.statusCode});
-      if(response.statusCode == 200){
+      result.addAll({"statusCode": response.statusCode});
+      if (response.statusCode == 200) {
         Map<String, dynamic> json = jsonDecode(response.body);
-        result.addAll({"message" : json['message']});
+        result.addAll({"message": json['message']});
       }
-      if(response.statusCode == 400){
+      if (response.statusCode == 400) {
         Map<String, dynamic> json = jsonDecode(response.body);
-        result.addAll({"message" : json['error']});
+        result.addAll({"message": json['error']});
       }
       return result;
     } catch (e) {
@@ -58,10 +55,7 @@ class UserProvider with ChangeNotifier {
       Map retour = {};
       http.Response response = await http.post(
         Uri.parse('$host/api/users/login'),
-        body: json.encode({
-          'mailusername': mailusername,
-          'password': mdp
-        }),
+        body: json.encode({'mailusername': mailusername, 'password': mdp}),
         headers: {'Content-type': 'application/json'},
       );
       retour.addAll({"statusCode": response.statusCode});
@@ -85,10 +79,7 @@ class UserProvider with ChangeNotifier {
       Map retour = {};
       http.Response response = await http.post(
         Uri.parse('$host/api/users/changepassword'),
-        body: json.encode({
-          'email': mailusername,
-          'password': mdp
-        }),
+        body: json.encode({'email': mailusername, 'password': mdp}),
         headers: {'Content-type': 'application/json'},
       );
       retour.addAll({"statusCode": response.statusCode});

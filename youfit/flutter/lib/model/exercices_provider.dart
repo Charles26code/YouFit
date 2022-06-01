@@ -11,7 +11,7 @@ import 'exercices_model.dart';
 // Lancer le serveur node (attendre le message "connexion ok !")
 // backend> npm start
 
-class UserProvider with ChangeNotifier {
+class ExercicesProvider with ChangeNotifier {
   final String host = 'http://localhost:3000';
   List<Exercices> _users = [];
 
