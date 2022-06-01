@@ -118,6 +118,10 @@ class _ProgramScreenState extends State<ProgramScreen> {
           context,
           listen: false,
         ).removeFromFavoris(widget.user.id!, cards[index]['exerciceId']);
+      if(widget.isFavoritePage){
+        Navigator.pop(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: true)));
+      }
     }
     
     ScaffoldMessenger.of(context)
@@ -229,7 +233,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: false)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: false)));
               },
             ),
             
@@ -252,7 +256,7 @@ class _ProgramScreenState extends State<ProgramScreen> {
               
               onTap: () {
                 Navigator.pop(context);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: true)));
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => ProgramScreen(user: widget.user, isFavoritePage: true)));
               },
             ),
             
